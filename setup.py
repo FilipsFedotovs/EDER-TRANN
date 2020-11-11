@@ -18,12 +18,27 @@ dir_writer.writerow(string_to_write)
 print 'Created the directory mapping file'
 
 ########################################     Create directories for HTCondor    #########################################
-os.mkdir('HTCondor')
+try:
+  os.mkdir('HTCondor')
+  print 'HTCondor folder has been created:'
+except:
+  print 'Problem creating HTCondor directory, probably it already exists'
+try:
+  os.mkdir('HTCondor/MSG')
+  print 'HTCondor/MSG sub-folder has been created:'
+except:
+  print 'Problem creating HTCondor/MSG sub-directory, probably it already exists'
+try:
+  os.mkdir('HTCondor/SUB')
+  print 'HTCondor/SUB sub-folder has been created:'
+except:
+  print 'Problem creating HTCondor/SUB sub-directory, probably it already exists'
+try:
+  os.mkdir('HTCondor/SH')
+  print 'HTCondor/SH sub-folder has been created:'
+except:
+  print 'Problem creating HTCondor/SH sub-directory, probably it already exists'
 
-os.mkdir('HTCondor/MSG')
-os.mkdir('HTCondor/SUB')
-os.mkdir('HTCondor/SH')
-print 'HTCondor folders have been created:'
 
 #########################################   Workout EOS directory #################################
 EOSDir=str(input("Please enter the full path of your directory on EOS:\n"))
