@@ -18,6 +18,7 @@ dir_writer.writerow(string_to_write)
 print 'Created the directory mapping file'
 
 ########################################     Create directories for HTCondor    #########################################
+os.mkdir('HTCondor')
 os.mkdir('HTCondor/MSG')
 os.mkdir('HTCondor/SUB')
 os.mkdir('HTCondor/SH')
