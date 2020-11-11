@@ -19,13 +19,14 @@ print 'Created the directory mapping file'
 
 ########################################     Create directories for HTCondor    #########################################
 os.mkdir('HTCondor')
+
 os.mkdir('HTCondor/MSG')
 os.mkdir('HTCondor/SUB')
 os.mkdir('HTCondor/SH')
 print 'HTCondor folders have been created:'
 
 #########################################   Workout EOS directory #################################
-EOSDir=input("Please enter the full path of your directory on EOS:\n")
+EOSDir=str(input("Please enter the full path of your directory on EOS:\n"))
 print(EOSDir)
 
 exit()
