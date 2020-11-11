@@ -24,6 +24,10 @@ os.mkdir('HTCondor/SUB')
 os.mkdir('HTCondor/SH')
 print 'HTCondor folders have been created:'
 
+#########################################   Workout EOS directory #################################
+EOSDir=input("Please enter the full path of your directory on EOS:\n")
+print(EOSDir)
+
 exit()
 
 
