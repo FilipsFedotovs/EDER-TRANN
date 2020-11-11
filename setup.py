@@ -7,7 +7,7 @@ import os, shutil
 import subprocess
 ########################################     Work out the current directory    #########################################
 
-print 'Current directory is:', getcwd()
+print 'Current directory is:', os.getcwd()
 
 exit()
 
