@@ -105,6 +105,14 @@ if UserAnswer1=='Y':
     if os.path.isfile(full_file_name):
         print 'Copying file', full_file_name, 'from ',ValOrigin,'into', EOSsubValDIR
         shutil.copy(full_file_name, EOSsubValDIR)
+
+  TestOrigin='/eos/experiment/ship/data/EDER-TRANN/TEST_SET/'
+  src_files = os.listdir(TestOrigin)
+  for file_name in src_files:
+    full_file_name = os.path.join(TestOrigin, file_name)
+    if os.path.isfile(full_file_name):
+        print 'Copying file', full_file_name, 'from ',TestOrigin,'into', EOSsubTestDIR
+        shutil.copy(full_file_name, EOSsubTestDIR)
 exit()
 #csv_writer=open('config',"a")
 #dir_writer = csv.writer(csv_writer)
