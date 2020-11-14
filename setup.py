@@ -11,8 +11,10 @@ import subprocess
 ######################################## Work out whether user wants to uninstall the config ################
 parser = argparse.ArgumentParser(description='Setup creation parameters')
 parser.add_argument('--REMOVE',help="If you want to uninstall please enter Y", default='N')
+parser.add_argument('--DTEST',help="If you want to do Data Test only", default='N')
 args = parser.parse_args()
 UserChoice=args.REMOVE
+UserChoice2=args.DTEST
 ######################################## Create some functions to simplify the code   #######################
 def FolderCreate(DIR):
     try:
@@ -38,6 +40,8 @@ if UserChoice=='Y':
    print 'Uninstallation complete, you can delete setup.py and its parent directory manually if you wish'
    exit()
 
+
+print Features
 def CheckForData(String):
     if String[:4]!='TEST' and String[:2]!='ID':
         return True
@@ -49,6 +53,7 @@ def RecordExistCheck(Record, Data):
         if Record==d:
             return True
     return False
+
 ########################################     Work out and registering the current directory    #########################################
 CurrDir=os.getcwd()
 print 'Current directory is set as:', os.getcwd()
@@ -133,8 +138,11 @@ Features=[]
 with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv') as f:
   reader = csv.reader(f)
   row1 = next(reader)
-  print(row1)
-
+  for r in row1:
+     if CheckForData(r):
+        Features.append(r)
+  f.close()
+print Features
 exit()
 #csv_writer=open('config',"a")
 #dir_writer = csv.writer(csv_writer)
