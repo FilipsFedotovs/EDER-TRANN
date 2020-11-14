@@ -10,15 +10,14 @@ parser.add_argument('--xmin',help="Please enter the min value of x", default='50
 parser.add_argument('--xmax',help="Please enter the max value of x", default='60000')
 parser.add_argument('--ymin',help="Please enter the min value of y", default='50000')
 parser.add_argument('--ymax',help="Please enter the max value of y", default='60000')
-parser.add_argument('--LossFunct',help="Please enter the loss function", default='mse')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 flocation=args.f
 olocation=args.o
-xmin=args.xmin
-xmax=args.xmax
-ymin=args.ymin
-ymax=args.ymax
+xmin=float(args.xmin)
+xmax=float(args.xmax)
+ymin=float(args.ymin)
+ymax=float(args.ymax)
 with open(flocation) as csv_read_file:
           csv_read = csv.reader(csv_read_file, delimiter=',')
           data=[]
@@ -36,7 +35,7 @@ with open(flocation) as csv_read_file:
            datarow=[]
            if row[0]!='ID':
               if float(row[2])>xmin and float(row[2])<xmax:
-                  if float(row[3])>xmin and float(row[3])<xmax:
+                  if float(row[3])>ymin and float(row[3])<ymax:
                       datarow.append(row[0])
                       datarow.append(row[1])
                       datarow.append(row[2])
@@ -47,12 +46,12 @@ with open(flocation) as csv_read_file:
                       datarow.append(row[19])
                       data.append(datarow)
                       datarow=[]
-          csv_read_file.close()
-          csv_write=open(olocation,"w")
-          writer = csv.writer(csv_write)
-          for d in data:
-           writer.writerow(d)
-          csv_write.close()
+csv_read_file.close()
+csv_write=open(olocation,"w")
+writer = csv.writer(csv_write)
+for d in data:
+    writer.writerow(d)
+csv_write.close()
 
 
 

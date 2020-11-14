@@ -32,6 +32,7 @@ if UserChoice=='Y':
        shutil.rmtree(DEL_DIR)
        break
    shutil.rmtree('HTCondor')
+   shutil.rmtree('Code')
    os.remove('config')
 
    print 'Uninstallation complete, you can delete setup.py and its parent directory manually if you wish'
