@@ -34,7 +34,7 @@ with open(flocation) as csv_read_file:
           data.append(HEADER)
           for row in csv_read:
            datarow=[]
-           if int(row[0])!='ID':
+           if row[0]!='ID':
               if float(row[2])>xmin and float(row[2])<xmax:
                   if float(row[3])>xmin and float(row[3])<xmax:
                       datarow.append(row[0])
