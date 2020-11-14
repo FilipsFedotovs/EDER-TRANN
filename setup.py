@@ -130,7 +130,7 @@ if UserAnswer1=='Y':
 #########################################   Doing initial data diagnostics #################################
 print 'Performing initial data diagnostics'
 Features=[]
-with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv', newline='') as f:
+with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv') as f:
   reader = csv.reader(f)
   row1 = next(reader)
   print(row1)
