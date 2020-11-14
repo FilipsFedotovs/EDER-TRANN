@@ -41,7 +41,6 @@ if UserChoice=='Y':
    exit()
 
 
-print Features
 def CheckForData(String):
     if String[:4]!='TEST' and String[:2]!='ID':
         return True
@@ -141,19 +140,51 @@ with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv') as f:
   for r in row1:
      if CheckForData(r):
         Features.append(r)
-  f.close()
-print Features
+f.close()
+print 'The test data set contains', len(Features), 'features:', Features
+print 'Testing whether the training sets is adequate...'
+csv_writer=open(EOSsubDataDIR+'/data_config',"w")
+dir_writer = csv.writer(csv_writer)
+string_to_write=[]
+string_to_write.append('FEATURES')
+string_to_write.append(Features)
+dir_writer.writerow(string_to_write)
+
+src_files = os.listdir(EOSsubTrainDIR)
+for file_name in src_files:
+    TrainFeatures=[]
+    full_file_name = os.path.join(EOSsubTrainDIR, file_name)
+    if os.path.isfile(full_file_name):
+        print 'Training set', full_file_name, '...'
+        with open(full_file_name) as f:
+            reader = csv.reader(f)
+            row1 = next(reader)
+            for ft in Features:
+             if RecordExistCheck(ft, row1)==False:
+                 print('Error! The data feature',ft, 'that is required in Test Data set is missing from ',full_file_name)
+                 exit()
+print 'Looks like the training set is adequate...'
+f.close()
+
+print 'Testing whether the validation set is adequate...'
+src_files = os.listdir(EOSsubValDIR)
+for file_name in src_files:
+    full_file_name = os.path.join(EOSsubValDIR, file_name)
+    if os.path.isfile(full_file_name):
+        print 'Validation set', full_file_name, '...'
+        with open(full_file_name) as f:
+            reader = csv.reader(f)
+            row1 = next(reader)
+            for ft in Features:
+             if RecordExistCheck(ft, row1)==False:
+                 print('Error! The data feature',ft, 'that is required in Test Data set is missing from ',full_file_name)
+                 exit()
+f.close()
+print 'Looks like the validation set is adequate...'
 exit()
-#csv_writer=open('config',"a")
-#dir_writer = csv.writer(csv_writer)
-#string_to_write=[]
-#string_to_write.append('EOS_DIR')
-#string_to_write.append(EOSDir)
-#dir_writer.writerow(string_to_write)
-#print 'Updated the directory mapping file with EOS location'
 
 
-exit()
+
 
 
 
