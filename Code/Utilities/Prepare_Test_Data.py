@@ -5,7 +5,7 @@ import csv
 import argparse
 parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--f',help="Please enter the full path to the file that you want to use as preparation dna", default='/eos/user/a/aiuliano/public/sims_fedra/CH1_pot_03_02_20/b000001/b000001_withtracks.csv')
-parser.add_argument('--o',help="Please enter the full path of the destination file", default='/eos/experiment/ship/data/EDER-TRANN/TEST_SET/TEST_SET.csv')
+parser.add_argument('--o',help="Please enter the full path of the destination file", default='/eos/experiment/ship/data/EDER-TRANN/TEST_SET/RNN_TEST_SET.csv')
 parser.add_argument('--xmin',help="Please enter the min value of x", default='50000')
 parser.add_argument('--xmax',help="Please enter the max value of x", default='60000')
 parser.add_argument('--ymin',help="Please enter the min value of y", default='50000')

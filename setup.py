@@ -37,6 +37,18 @@ if UserChoice=='Y':
 
    print 'Uninstallation complete, you can delete setup.py and its parent directory manually if you wish'
    exit()
+
+def CheckForData(String):
+    if String[:4]!='TEST' and String[:2]!='ID':
+        return True
+    return False
+
+
+def RecordExistCheck(Record, Data):
+    for d in Data:
+        if Record==d:
+            return True
+    return False
 ########################################     Work out and registering the current directory    #########################################
 CurrDir=os.getcwd()
 print 'Current directory is set as:', os.getcwd()
@@ -114,6 +126,15 @@ if UserAnswer1=='Y':
     if os.path.isfile(full_file_name):
         print 'Copying file', full_file_name, 'from ',TestOrigin,'into', EOSsubTestDIR
         shutil.copy(full_file_name, EOSsubTestDIR)
+
+#########################################   Doing initial data diagnostics #################################
+print 'Performing initial data diagnostics'
+Features=[]
+with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv', newline='') as f:
+  reader = csv.reader(f)
+  row1 = next(reader)
+  print(row1)
+
 exit()
 #csv_writer=open('config',"a")
 #dir_writer = csv.writer(csv_writer)
