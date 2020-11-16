@@ -1,4 +1,4 @@
-#Belogs to: EDER-TRAN
+#Belogs to: EDER-TRANN
 #Purpose: To setup all working directories for the new user
 
 ########################################    Import libraries    #############################################
@@ -99,6 +99,7 @@ EOSsubEvoDIR=EOSsubDIR+'/'+'Evolution'
 EOSsubTrainDIR=EOSsubDataDIR+'/'+'TRAIN_SET'
 EOSsubValDIR=EOSsubDataDIR+'/'+'VALIDATION_SET'
 EOSsubTestDIR=EOSsubDataDIR+'/'+'TEST_SET'
+EOSsubEvoModelDIR=EOSsubEvoDIR+'/'+'Models'
 
 FolderCreate(EOSsubDIR)
 FolderCreate(EOSsubDataDIR)
@@ -107,11 +108,12 @@ FolderCreate(EOSsubEvoDIR)
 FolderCreate(EOSsubTrainDIR)
 FolderCreate(EOSsubValDIR)
 FolderCreate(EOSsubTestDIR)
+FolderCreate(EOSsubEvoModelDIR)
 
 #########################################   Workout out training and validation files #################################
-print 'We have to make sure that we have training and validation files in relevant folders'
-print 'If you want to use original files that were created beforehand, please type "Y" below'
-UserAnswer1=str(input("Would you like to copy default training and validation files? (Please put your answer in ''):\n"))
+print bcolors.BOLD+'We have to make sure that we have training and validation files in relevant folders'+bcolors.ENDC
+print bcolors.BOLD+'If you want to use original files that were created beforehand, please type "Y" below'+bcolors.ENDC
+UserAnswer1=str(input(bcolors.BOLD+"Would you like to copy default training and validation files? (Please put your answer in ''):\n"+bcolors.ENDC))
 #Making action depending on user input
 if UserAnswer1=='Y':
   TrainOrigin='/eos/experiment/ship/data/EDER-TRANN/TRAIN_SET/'
@@ -264,4 +266,5 @@ for file_name in src_files:
                 csv_writer.close()
         f.close()
 print bcolors.OKGREEN+'Training set meta-data has been successfully created...' +bcolors.ENDC
+print bcolors.OKGREEN+'EDER-TRANN setup is successfully completed' +bcolors.ENDC
 exit()
