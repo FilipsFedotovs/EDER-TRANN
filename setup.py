@@ -147,7 +147,7 @@ else:
    print bcolors.BOLD+'They have to be named in the following format: RNN_VALIDATION_SET.csv '+bcolors.ENDC
    print bcolors.BOLD+'Also, please make sure that you have put your custom test file in the folder:'+bcolors.ENDC, bcolors.OKBLUE+EOSsubTestDIR+bcolors.ENDC
    print bcolors.BOLD+'They have to be named in the following format: RNN_TEST_SET.csv '+bcolors.ENDC
-   UserAnswer3=str(input(bcolors.BOLD+"Please press enter to continue setup once files are in the relevant folders.\n"+bcolors.ENDC))
+   UserAnswer3=input(bcolors.BOLD+"Please press enter to continue setup once files are in the relevant folders.\n"+bcolors.ENDC)
 #########################################   Doing initial data diagnostics #################################
 print 'Performing initial data diagnostics'
 Features=[]
