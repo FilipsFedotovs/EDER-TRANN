@@ -103,7 +103,7 @@ FolderCreate(EOSsubTestDIR)
 #########################################   Workout out training and validation files #################################
 print 'We have to make sure that we have training and validation files in relevant folders'
 print 'If you want to use original files that were created beforehand, please type "Y" below'
-UserAnswer1=str(input("Would you like to copy default training and validation files? (Please put your answer in '' :\n"))
+UserAnswer1=str(input("Would you like to copy default training and validation files? (Please put your answer in ''):\n"))
 #Making action depending on user input
 if UserAnswer1=='Y':
   TrainOrigin='/eos/experiment/ship/data/EDER-TRANN/TRAIN_SET/'
@@ -196,14 +196,12 @@ for file_name in src_files:
             reader = csv.reader(f)
             required_idseq_row=0
             required_idseqlen_row=0
-            row1 = next(reader)
-            for r in range(0,len(row1)):
+            for r in range(0,len(reader[0])):
                 if row1[r]=='ID_SEQ':
                     required_idseq_row=r
                 if row1[r]=='ID_SEQ_LENGTH':
                     required_idseqlen_row=r
-            newreader = csv.reader(f)
-            for row in newreader:
+            for row in reader:
                 if row[required_idseqlen_row]!='ID_SEQ_LENGTH':
                     if int(row[required_idseqlen_row])==l:
                        ID_LEN_EXISTS=True
