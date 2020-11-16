@@ -80,7 +80,7 @@ FolderCreate('HTCondor/SUB')
 FolderCreate('HTCondor/SH')
 
 #########################################   Workout EOS directory #################################
-EOSDir=str(input(bcolors.BOLD+"Please enter the full path of your directory on EOS:\n"+bcolors.ENDC))
+EOSDir=raw_input(bcolors.BOLD+"Please enter the full path of your directory on EOS:\n"+bcolors.ENDC)
 #Writing this directory into csv file so the software knows where to look data/code
 csv_writer=open('config',"a")
 dir_writer = csv.writer(csv_writer)
@@ -113,7 +113,7 @@ FolderCreate(EOSsubEvoModelDIR)
 #########################################   Workout out training and validation files #################################
 print bcolors.BOLD+'We have to make sure that we have training and validation files in relevant folders'+bcolors.ENDC
 print bcolors.BOLD+'If you want to use original files that were created beforehand, please type "Y"/"N" below'+bcolors.ENDC
-UserAnswer1=str(input(bcolors.BOLD+"Would you like to copy default training and validation files? (Please put your answer in ''):\n"+bcolors.ENDC))
+UserAnswer1=raw_input(bcolors.BOLD+"Would you like to copy default training and validation files? (Please put your answer in ''):\n"+bcolors.ENDC)
 #Making action depending on user input
 if UserAnswer1=='Y':
   TrainOrigin='/eos/experiment/ship/data/EDER-TRANN/TRAIN_SET/'
@@ -147,7 +147,7 @@ else:
    print bcolors.BOLD+'They have to be named in the following format: RNN_VALIDATION_SET.csv '+bcolors.ENDC
    print bcolors.BOLD+'Also, please make sure that you have put your custom test file in the folder:'+bcolors.ENDC, bcolors.OKBLUE+EOSsubTestDIR+bcolors.ENDC
    print bcolors.BOLD+'They have to be named in the following format: RNN_TEST_SET.csv '+bcolors.ENDC
-   input(bcolors.BOLD+"Please press enter to continue setup once files are in the relevant folders.\n"+bcolors.ENDC)
+   raw_input(bcolors.BOLD+"Please press enter to continue setup once files are in the relevant folders.\n"+bcolors.ENDC)
 #########################################   Doing initial data diagnostics #################################
 print 'Performing initial data diagnostics'
 Features=[]
