@@ -140,17 +140,28 @@ if UserAnswer1=='Y':
     if os.path.isfile(full_file_name):
         print 'Copying file', full_file_name, 'from ',bcolors.OKBLUE+TestOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubTestDIR+bcolors.ENDC
         shutil.copy(full_file_name, EOSsubTestDIR)
+else:
+   print bcolors.BOLD+'In this case, please make sure that you have put your custom training files in the folder:'+bcolors.ENDC, bcolors.OKBLUE+EOSsubTrainDIR+bcolors.ENDC
+   print bcolors.BOLD+'They have to be named in the following format: RNN_TRAIN_SET_#.csv where # is a file number'+bcolors.ENDC
+   print bcolors.BOLD+'Also, please make sure that you have put your custom validation file in the folder:'+bcolors.ENDC, bcolors.OKBLUE+EOSsubValDIR+bcolors.ENDC
+   print bcolors.BOLD+'They have to be named in the following format: RNN_VALIDATION_SET.csv '+bcolors.ENDC
+   print bcolors.BOLD+'Also, please make sure that you have put your custom test file in the folder:'+bcolors.ENDC, bcolors.OKBLUE+EOSsubTestDIR+bcolors.ENDC
+   print bcolors.BOLD+'They have to be named in the following format: RNN_TEST_SET.csv '+bcolors.ENDC
 
 #########################################   Doing initial data diagnostics #################################
 print 'Performing initial data diagnostics'
 Features=[]
-with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv') as f:
+try:
+ with open(EOSsubTestDIR+'/'+'RNN_TEST_SET.csv') as f:
   reader = csv.reader(f)
   row1 = next(reader)
   for r in row1:
      if CheckForData(r):
         Features.append(r)
-f.close()
+ f.close()
+except:
+ print bcolors.FAIL+'Problem accessing '+bcolors.ENDC,bcolors.OKBLUE+EOSsubTestDIR+'/'+'RNN_TEST_SET.csv'+bcolors.ENDC, bcolors.FAIL+'file, please make sure that the files are there and try setup again.'+bcolors.ENDC
+ exit()
 print 'The test data set contains', len(Features), 'features:', Features
 print 'Testing whether the training sets is adequate...'
 csv_writer=open(EOSsubDataDIR+'/data_config',"w")
