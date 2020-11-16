@@ -149,7 +149,7 @@ string_to_write=[]
 string_to_write.append('FEATURES')
 string_to_write.append(Features)
 dir_writer.writerow(string_to_write)
-
+csv_writer.close()
 src_files = os.listdir(EOSsubTrainDIR)
 for file_name in src_files:
     TrainFeatures=[]
@@ -181,6 +181,46 @@ for file_name in src_files:
                  exit()
 f.close()
 print 'Looks like the validation set is adequate...'
+
+############################## Create metadata #####################################
+print 'Creating meta-data...'
+src_files = os.listdir(EOSsubValDIR)
+for file_name in src_files:
+    full_file_name = os.path.join(EOSsubValDIR, file_name)
+    if os.path.isfile(full_file_name):
+        print 'Analysing validation set', full_file_name, '...'
+        with open(full_file_name) as f:
+         for l in range(0,100):
+            ID_SEQ=[]
+            ID_LEN_EXISTS=False
+            reader = csv.reader(f)
+            required_idseq_row=0
+            required_idseqlen_row=0
+            row1 = next(reader)
+            for r in range(0,len(row)):
+                if row1[r]=='ID_SEQ':
+                    required_idseq_row=r
+                if row1[r]=='ID_SEQ_LENGTH':
+                    required_idseqlen_row=r
+            for row in reader:
+                if row[required_idseqlen_row]!='ID_SEQ_LENGTH':
+                    if int(row[required_idseqlen_row])==l:
+                       ID_LEN_EXISTS=True
+                       if row[required_idseq_row]!='ID_SEQ':
+                          ID_SEQ.append(int(row[required_idseq_row]))
+            if ID_LEN_EXISTS:
+                csv_writer=open(EOSsubDataDIR+'/data_config',"a")
+                dir_writer = csv.writer(csv_writer)
+                string_to_write=[]
+                string_to_write.append('VAL_META')
+                string_to_write.append(l)
+                string_to_write.append(min(ID_SEQ))
+                string_to_write.append(max(ID_SEQ))
+                string_to_write.append(full_file_name)
+                dir_writer.writerow(string_to_write)
+                csv_writer.close()
+        f.close()
+
 exit()
 
 
