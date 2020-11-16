@@ -194,19 +194,20 @@ for file_name in src_files:
             ID_SEQ=[]
             ID_LEN_EXISTS=False
             reader = csv.reader(f)
+            reader_lines=list(reader)
             required_idseq_row=0
             required_idseqlen_row=0
-            for r in range(0,len(reader[0])):
-                if row1[r]=='ID_SEQ':
+            for r in range(0,reader_lines[0]):
+                if reader_lines[0][r]=='ID_SEQ':
                     required_idseq_row=r
-                if row1[r]=='ID_SEQ_LENGTH':
+                if reader_lines[0][r]=='ID_SEQ_LENGTH':
                     required_idseqlen_row=r
-            for row in reader:
-                if row[required_idseqlen_row]!='ID_SEQ_LENGTH':
-                    if int(row[required_idseqlen_row])==l:
+            for line in reader_lines:
+                if line[required_idseqlen_row]!='ID_SEQ_LENGTH':
+                    if int(line[required_idseqlen_row])==l:
                        ID_LEN_EXISTS=True
-                       if row[required_idseq_row]!='ID_SEQ':
-                          ID_SEQ.append(int(row[required_idseq_row]))
+                       if line[required_idseq_row]!='ID_SEQ':
+                          ID_SEQ.append(int(line[required_idseq_row]))
             if ID_LEN_EXISTS:
                 csv_writer=open(EOSsubDataDIR+'/data_config',"a")
                 dir_writer = csv.writer(csv_writer)
