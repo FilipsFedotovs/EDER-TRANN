@@ -197,7 +197,7 @@ for file_name in src_files:
             required_idseq_row=0
             required_idseqlen_row=0
             row1 = next(reader)
-            for r in range(0,len(row)):
+            for r in range(0,len(row1)):
                 if row1[r]=='ID_SEQ':
                     required_idseq_row=r
                 if row1[r]=='ID_SEQ_LENGTH':
