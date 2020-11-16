@@ -202,7 +202,8 @@ for file_name in src_files:
                     required_idseq_row=r
                 if row1[r]=='ID_SEQ_LENGTH':
                     required_idseqlen_row=r
-            for row in reader:
+            newreader = csv.reader(f)
+            for row in newreader:
                 if row[required_idseqlen_row]!='ID_SEQ_LENGTH':
                     if int(row[required_idseqlen_row])==l:
                        ID_LEN_EXISTS=True
