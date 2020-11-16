@@ -7,7 +7,15 @@ import os, shutil
 import argparse
 from shutil import copyfile
 import subprocess
-
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 ######################################## Work out whether user wants to uninstall the config ################
 parser = argparse.ArgumentParser(description='Setup creation parameters')
 parser.add_argument('--REMOVE',help="If you want to uninstall please enter Y", default='N')
@@ -19,9 +27,9 @@ UserChoice2=args.DTEST
 def FolderCreate(DIR):
     try:
       os.mkdir(DIR)
-      print DIR, 'folder has been created...'
+      print bcolors.OKBLUE+DIR+bcolors.ENDC, bcolors.OKGREEN+'folder has been created...'+bcolors.ENDC
     except:
-      print 'Problem creating ',DIR, 'folder, probably it already exists...'
+      print bcolors.FAIL+'Problem creating '+bcolors.ENDC,bcolors.OKBLUE+DIR+bcolors.ENDC, bcolors.FAIL+'folder, probably it already exists...'+bcolors.ENDC
 
 if UserChoice=='Y':
 
@@ -37,7 +45,7 @@ if UserChoice=='Y':
    shutil.rmtree('Code')
    os.remove('config')
 
-   print 'Uninstallation complete, you can delete setup.py and its parent directory manually if you wish'
+   print bcolors.OKGREEN+'Uninstallation complete, you can delete setup.py and its parent directory manually if you wish'+bcolors.ENDC
    exit()
 
 
@@ -55,7 +63,7 @@ def RecordExistCheck(Record, Data):
 
 ########################################     Work out and registering the current directory    #########################################
 CurrDir=os.getcwd()
-print 'Current directory is set as:', os.getcwd()
+print 'Current directory is set as:', bcolors.OKBLUE+os.getcwd()+bcolors.ENDC
 #Writing this directory into csv file so the software knows where to look data/code
 csv_writer=open('config',"w")
 dir_writer = csv.writer(csv_writer)
@@ -63,7 +71,7 @@ string_to_write=[]
 string_to_write.append('AFS_DIR')
 string_to_write.append(CurrDir)
 dir_writer.writerow(string_to_write)
-print 'Created the configuration file'
+print bcolors.OKGREEN+'Created the configuration file'+bcolors.ENDC
 
 ########################################     Create directories for HTCondor    #########################################
 FolderCreate('HTCondor')
@@ -72,7 +80,7 @@ FolderCreate('HTCondor/SUB')
 FolderCreate('HTCondor/SH')
 
 #########################################   Workout EOS directory #################################
-EOSDir=str(input("Please enter the full path of your directory on EOS:\n"))
+EOSDir=str(input(bcolors.BOLD+"Please enter the full path of your directory on EOS:\n"+bcolors.ENDC))
 #Writing this directory into csv file so the software knows where to look data/code
 csv_writer=open('config',"a")
 dir_writer = csv.writer(csv_writer)
@@ -80,7 +88,7 @@ string_to_write=[]
 string_to_write.append('EOS_DIR')
 string_to_write.append(EOSDir)
 dir_writer.writerow(string_to_write)
-print 'Updated the directory mapping file with EOS location'
+print bcolors.OKGREEN+'Updated the directory mapping file with EOS location'+bcolors.ENDC
 
 ########################################     Create sub-directories on EOS    #########################################
 
@@ -112,7 +120,7 @@ if UserAnswer1=='Y':
     full_file_name = os.path.join(TrainOrigin, file_name)
 
     if os.path.isfile(full_file_name):
-        print 'Copying file', full_file_name, 'from ',TrainOrigin,'into', EOSsubTrainDIR
+        print 'Copying file', full_file_name, 'from ',bcolors.OKBLUE+TrainOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubTrainDIR+bcolors.ENDC
         shutil.copy(full_file_name, EOSsubTrainDIR)
 
   ValOrigin='/eos/experiment/ship/data/EDER-TRANN/VALIDATION_SET/'
@@ -120,7 +128,7 @@ if UserAnswer1=='Y':
   for file_name in src_files:
     full_file_name = os.path.join(ValOrigin, file_name)
     if os.path.isfile(full_file_name):
-        print 'Copying file', full_file_name, 'from ',ValOrigin,'into', EOSsubValDIR
+        print 'Copying file', full_file_name, 'from ',bcolors.OKBLUE+ValOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubValDIR+bcolors.ENDC
         shutil.copy(full_file_name, EOSsubValDIR)
 
   TestOrigin='/eos/experiment/ship/data/EDER-TRANN/TEST_SET/'
@@ -128,7 +136,7 @@ if UserAnswer1=='Y':
   for file_name in src_files:
     full_file_name = os.path.join(TestOrigin, file_name)
     if os.path.isfile(full_file_name):
-        print 'Copying file', full_file_name, 'from ',TestOrigin,'into', EOSsubTestDIR
+        print 'Copying file', full_file_name, 'from ',bcolors.OKBLUE+TestOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubTestDIR+bcolors.ENDC
         shutil.copy(full_file_name, EOSsubTestDIR)
 
 #########################################   Doing initial data diagnostics #################################
@@ -155,15 +163,15 @@ for file_name in src_files:
     TrainFeatures=[]
     full_file_name = os.path.join(EOSsubTrainDIR, file_name)
     if os.path.isfile(full_file_name):
-        print 'Training set', full_file_name, '...'
+        print 'Training set', bcolors.OKBLUE+full_file_name+bcolors.ENDC
         with open(full_file_name) as f:
             reader = csv.reader(f)
             row1 = next(reader)
             for ft in Features:
              if RecordExistCheck(ft, row1)==False:
-                 print('Error! The data feature',ft, 'that is required in Test Data set is missing from ',full_file_name)
+                 print bcolors.FAIL+'Error! The data feature',ft, 'that is required in Test Data set is missing from '+bcolors.ENDC,bcolors.OKBLUE+full_file_name+bcolors.ENDC
                  exit()
-print 'Looks like the training set is adequate...'
+print bcolors.OKGREEN+'Looks like the training set is adequate...'+bcolors.ENDC
 f.close()
 
 print 'Testing whether the validation set is adequate...'
@@ -171,37 +179,35 @@ src_files = os.listdir(EOSsubValDIR)
 for file_name in src_files:
     full_file_name = os.path.join(EOSsubValDIR, file_name)
     if os.path.isfile(full_file_name):
-        print 'Validation set', full_file_name, '...'
+        print 'Validation set', bcolors.OKBLUE+full_file_name+bcolors.ENDC
         with open(full_file_name) as f:
             reader = csv.reader(f)
             row1 = next(reader)
             for ft in Features:
              if RecordExistCheck(ft, row1)==False:
-                 print('Error! The data feature',ft, 'that is required in Test Data set is missing from ',full_file_name)
+                 print bcolors.FAIL+'Error! The data feature',ft, 'that is required in Test Data set is missing from '+bcolors.ENDC,bcolors.OKBLUE+full_file_name+bcolors.ENDC
                  exit()
 f.close()
-print 'Looks like the validation set is adequate...'
+print bcolors.OKGREEN+'Looks like the validation set is adequate...'+bcolors.ENDC
 
 ############################## Create metadata #####################################
-print 'Creating meta-data...'
+print 'Creating validation set meta-data...'
 src_files = os.listdir(EOSsubValDIR)
 for file_name in src_files:
     full_file_name = os.path.join(EOSsubValDIR, file_name)
-    if os.path.isfile(full_file_name):
-        print 'Analysing validation set', full_file_name, '...'
+    if os.path.isfile(full_file_name) and full_file_name.find('~')==-1:
+        print 'Analysing validation set', bcolors.OKBLUE+full_file_name+bcolors.ENDC
         with open(full_file_name) as f:
+         reader = csv.reader(f)
+         reader_lines=list(reader)
+         for r in range(0,len(reader_lines[0])):
+            if reader_lines[0][r]=='ID_SEQ':
+                  required_idseq_row=r
+            if reader_lines[0][r]=='ID_SEQ_LENGTH':
+                  required_idseqlen_row=r
          for l in range(0,100):
             ID_SEQ=[]
             ID_LEN_EXISTS=False
-            reader = csv.reader(f)
-            reader_lines=list(reader)
-            required_idseq_row=0
-            required_idseqlen_row=0
-            for r in range(0,len(reader_lines[0])):
-                if reader_lines[0][r]=='ID_SEQ':
-                    required_idseq_row=r
-                if reader_lines[0][r]=='ID_SEQ_LENGTH':
-                    required_idseqlen_row=r
             for line in reader_lines:
                 if line[required_idseqlen_row]!='ID_SEQ_LENGTH':
                     if int(line[required_idseqlen_row])==l:
@@ -220,14 +226,42 @@ for file_name in src_files:
                 dir_writer.writerow(string_to_write)
                 csv_writer.close()
         f.close()
+print bcolors.OKGREEN+'Validation set meta-data has been successfully created...' +bcolors.ENDC
 
+print 'Creating training set meta-data...'
+src_files = os.listdir(EOSsubTrainDIR)
+for file_name in src_files:
+    full_file_name = os.path.join(EOSsubTrainDIR, file_name)
+    if os.path.isfile(full_file_name) and full_file_name.find('~')==-1:
+        print 'Analysing training set', bcolors.OKBLUE+full_file_name+bcolors.ENDC
+        with open(full_file_name) as f:
+         reader = csv.reader(f)
+         reader_lines=list(reader)
+         for r in range(0,len(reader_lines[0])):
+            if reader_lines[0][r]=='ID_SEQ':
+                  required_idseq_row=r
+            if reader_lines[0][r]=='ID_SEQ_LENGTH':
+                  required_idseqlen_row=r
+         for l in range(0,100):
+            ID_SEQ=[]
+            ID_LEN_EXISTS=False
+            for line in reader_lines:
+                if line[required_idseqlen_row]!='ID_SEQ_LENGTH':
+                    if int(line[required_idseqlen_row])==l:
+                       ID_LEN_EXISTS=True
+                       if line[required_idseq_row]!='ID_SEQ':
+                          ID_SEQ.append(int(line[required_idseq_row]))
+            if ID_LEN_EXISTS:
+                csv_writer=open(EOSsubDataDIR+'/data_config',"a")
+                dir_writer = csv.writer(csv_writer)
+                string_to_write=[]
+                string_to_write.append('TRAIN_META')
+                string_to_write.append(l)
+                string_to_write.append(min(ID_SEQ))
+                string_to_write.append(max(ID_SEQ))
+                string_to_write.append(full_file_name)
+                dir_writer.writerow(string_to_write)
+                csv_writer.close()
+        f.close()
+print bcolors.OKGREEN+'Training set meta-data has been successfully created...' +bcolors.ENDC
 exit()
-
-
-
-
-
-
-
-
-
