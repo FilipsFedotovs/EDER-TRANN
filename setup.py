@@ -112,8 +112,8 @@ FolderCreate(EOSsubEvoModelDIR)
 
 #########################################   Workout out training and validation files #################################
 print bcolors.BOLD+'We have to make sure that we have training and validation files in relevant folders'+bcolors.ENDC
-print bcolors.BOLD+'If you want to use original files that were created beforehand, please type "Y"/"N" below'+bcolors.ENDC
-UserAnswer1=raw_input(bcolors.BOLD+"Would you like to copy default training and validation files? (Please put your answer in ''):\n"+bcolors.ENDC)
+print bcolors.BOLD+'If you want to use original files that were created beforehand, please type Y/N below'+bcolors.ENDC
+UserAnswer1=raw_input(bcolors.BOLD+"Would you like to copy default training and validation files?:\n"+bcolors.ENDC)
 #Making action depending on user input
 if UserAnswer1=='Y':
   TrainOrigin='/eos/experiment/ship/data/EDER-TRANN/TRAIN_SET/'
