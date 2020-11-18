@@ -19,10 +19,8 @@ class bcolors:
 ######################################## Work out whether user wants to uninstall the config ################
 parser = argparse.ArgumentParser(description='Setup creation parameters')
 parser.add_argument('--REMOVE',help="If you want to uninstall please enter Y", default='N')
-parser.add_argument('--DTEST',help="If you want to do Data Test only", default='N')
 args = parser.parse_args()
 UserChoice=args.REMOVE
-UserChoice2=args.DTEST
 ######################################## Create some functions to simplify the code   #######################
 def FolderCreate(DIR):
     try:
