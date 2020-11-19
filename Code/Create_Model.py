@@ -1,4 +1,4 @@
-#import libraries
+ik90o/'=['#import libraries
 import ast  #We need it to convert parsing string into the list
 import numpy as np #We need NumPy for some math operations
 import argparse #To parse model creation and training parameters to the script
@@ -283,6 +283,8 @@ if Mode=='Evolution':
    csv_writer_err=open(EOSsubEvoModelDIR+'/'+'model_fitness_'+str(SeqLength)+'_'+args.DNA+'.csv',"w")
    err_writer = csv.writer(csv_writer_err)
    record.append(SeqLength)
+   if difference!=difference:
+       difference=3000
    record.append(difference)
    err_writer.writerow(record)
    csv_writer_err.close()
