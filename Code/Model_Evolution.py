@@ -174,15 +174,21 @@ if mode=='C':
         exit()
 
    if len(RemainingJobs)==0 or UserAnswer=='C':
-      print CU.TimeStamp(),'Creating next generaion',Generation
       CU.LogOperations(EOSsubEvoDIR+'/Population.csv','StartLog',PreviousPopulation)
+      print bcolors.BOLD+'Batch',Batch,' is completed'+bcolors.ENDC
+      print bcolors.BOLD+'Would you like to continue training?'+bcolors.ENDC
+      UserAnswer=raw_input(bcolors.BOLD+"Please, enter Y/N\n"+bcolors.ENDC)
+      if UserAnswer=='N':
+          print CU.TimeStamp(),bcolors.OKGREEN+'Evolution is finished then, thank you and good bye'+bcolors.ENDC
+          exit()
+      print CU.TimeStamp(),'Creating next generaion',Generation+1
       for seq in SeqList:
        PreSelectedPopulation=[]
        for record in PreviousPopulation:
            if int(record[0])==seq:
                PreSelectedPopulation.append(record)
        if len(PreSelectedPopulation)==0:
-           print bcolors.ERROR+'Error! There are no parents to select for a given seqence length'+bcolors.ENDC
+           print bcolors.FAIL+'Error! There are no parents to select for a given seqence length'+bcolors.ENDC
            continue
        selected_parents_1=sorted(PreSelectedPopulation,key=lambda x: float(x[5]),reverse=False)[:selected]
        selected_parents_2=sorted(PreSelectedPopulation,key=lambda x: float(x[5]),reverse=False)[:selected]

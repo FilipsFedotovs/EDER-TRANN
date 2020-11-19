@@ -123,86 +123,6 @@ def LogOperations(flocation,mode, message):
          log_writer.writerow(m)
         csv_writer_log.close()
 
-
-def SubmitNewJobsCondor(job_list):
-    for p in job_list:
-            SHName='/afs/cern.ch/user/f/ffedship/private/CHARM/SH/SH_'+str(p[1])+'.sh'
-            SUBName='/afs/cern.ch/user/f/ffedship/private/CHARM/SUB/SUB_'+str(p[1])+'.sub'
-            MSGName='MSG_'
-            OptionLine=' --TrackLength '+str(p[1])
-            OptionLine+=(" --Samples "+str(p[2]))
-            OptionLine+=(" --ValSamples "+str(p[3]))
-            MSGName+=str(p[1])
-            f = open(SUBName, "w")
-            f.write("executable = "+SHName)
-            f.write("\n")
-            f.write("output =/afs/cern.ch/user/f/ffedship/private/CHARM/MSG/"+MSGName+".out")
-            f.write("\n")
-            f.write("error =/afs/cern.ch/user/f/ffedship/private/CHARM/MSG/"+MSGName+".err")
-            f.write("\n")
-            f.write("log =/afs/cern.ch/user/f/ffedship/private/CHARM/MSG/"+MSGName+".log")
-            f.write("\n")
-            f.write('requirements = (CERNEnvironment =!= "qa")')
-            f.write("\n")
-            f.write('transfer_output_files = ""')
-            f.write("\n")
-            f.write('+JobFlavour = "workday"')
-            f.write("\n")
-            f.write('queue 1')
-            f.write("\n")
-            f.close()
-            TotalLine='python3 /afs/cern.ch/user/f/ffedship/private/CHARM/Train_New_Job.py '+OptionLine
-            f = open(SHName, "w")
-            f.write("#!/bin/bash")
-            f.write("\n")
-            f.write("set -ux")
-            f.write("\n")
-            f.write(TotalLine)
-            f.write("\n")
-            f.close()
-            subprocess.call(['condor_submit',SUBName])
-            print TotalLine," has been successfully submitted"
-def SubmitJobsCondor(job_list):
-    for p in job_list:
-            SHName='/afs/cern.ch/user/f/ffedship/private/CHARM/SH/SH_'+str(p[1])+'.sh'
-            SUBName='/afs/cern.ch/user/f/ffedship/private/CHARM/SUB/SUB_'+str(p[1])+'.sub'
-            MSGName='MSG_'
-            OptionLine=' --TrackLength '+str(p[1])
-            OptionLine+=(" --Samples "+str(p[2]))
-            OptionLine+=(" --ValSamples "+str(p[3]))
-            OptionLine+=(" --StSample "+str(p[4]))
-            OptionLine+=(" --Batch "+str(p[0]))
-            MSGName+=str(p[1])
-            f = open(SUBName, "w")
-            f.write("executable = "+SHName)
-            f.write("\n")
-            f.write("output =/afs/cern.ch/user/f/ffedship/private/CHARM/MSG/"+MSGName+".out")
-            f.write("\n")
-            f.write("error =/afs/cern.ch/user/f/ffedship/private/CHARM/MSG/"+MSGName+".err")
-            f.write("\n")
-            f.write("log =/afs/cern.ch/user/f/ffedship/private/CHARM/MSG/"+MSGName+".log")
-            f.write("\n")
-            f.write('requirements = (CERNEnvironment =!= "qa")')
-            f.write("\n")
-            f.write('transfer_output_files = ""')
-            f.write("\n")
-            f.write('+JobFlavour = "workday"')
-            f.write("\n")
-            f.write('queue 1')
-            f.write("\n")
-            f.close()
-            TotalLine='python3 /afs/cern.ch/user/f/ffedship/private/CHARM/Train_Job.py '+OptionLine
-            f = open(SHName, "w")
-            f.write("#!/bin/bash")
-            f.write("\n")
-            f.write("set -ux")
-            f.write("\n")
-            f.write(TotalLine)
-            f.write("\n")
-            f.close()
-            subprocess.call(['condor_submit',SUBName])
-            print TotalLine," has been successfully submitted"
-
 #### Kosher stuff ######
 def TimeStamp():
  return "["+datetime.datetime.now().strftime("%D")+' '+datetime.datetime.now().strftime("%H:%M:%S")+"]"
@@ -297,8 +217,94 @@ def SubmitEvoJobsCondor(AFS_DIR,EOS_DIR,population,tr_start,tr_end, val_start, v
             f.close()
             subprocess.call(['condor_submit',SUBName])
             print TotalLine," has been successfully submitted"
+def SubmitTrainJobsCondor(AFS_DIR,EOS_DIR,job_list,mode):
+    for job in job_list:
+            SHName=AFS_DIR+'/HTCondor/SH/SH_'+str(job[0])+'_'+str(job[6])+'.sh'
+            SUBName=AFS_DIR+'/HTCondor/SUB/SUB_'+str(job[0])+'_'+str(job[6])+'.sub'
+            MSGName='MSG_'
+            if mode=='New':
+                OptionLine=' --Mode Production'
+            else:
+                OptionLine=' --Mode Train'
+            if job[5]!='-':
+               OptionLine+=(' --DNA "'+str(job[5])+'"')
+            OptionLine+=(" --ValSeqStart "+str(job[3]))
+            OptionLine+=(" --ValSeqEnd "+str(job[4]))
+            OptionLine+=(" --TrainSeqStart "+str(job[1]))
+            OptionLine+=(" --TrainSeqEnd "+str(job[2]))
+            OptionLine+=(" --TrackLength "+str(job[0]))
+            OptionLine+=(" --f "+EOS_DIR)
+            MSGName+=(str(job[0])+'_'+str(job[6]))
+            f = open(SUBName, "w")
+            f.write("executable = "+SHName)
+            f.write("\n")
+            f.write("output ="+AFS_DIR+"/HTCondor/MSG/"+MSGName+".out")
+            f.write("\n")
+            f.write("error ="+AFS_DIR+"/HTCondor/MSG/"+MSGName+".err")
+            f.write("\n")
+            f.write("log ="+AFS_DIR+"/HTCondor/MSG/"+MSGName+".log")
+            f.write("\n")
+            f.write('requirements = (CERNEnvironment =!= "qa")')
+            f.write("\n")
+            f.write('transfer_output_files = ""')
+            f.write("\n")
+            f.write('+JobFlavour = "workday"')
+            f.write("\n")
+            f.write('queue 1')
+            f.write("\n")
+            f.close()
+            TotalLine='python3 '+AFS_DIR+'/Code/Create_Model.py '+OptionLine
+            f = open(SHName, "w")
+            f.write("#!/bin/bash")
+            f.write("\n")
+            f.write("set -ux")
+            f.write("\n")
+            f.write(TotalLine)
+            f.write("\n")
+            f.close()
+            subprocess.call(['condor_submit',SUBName])
+            print TotalLine," has been successfully submitted"
+def TrainCleanUp(AFS_DIR, EOS_DIR,mode):
+    if mode=='Full':
+      subprocess.call(['condor_rm', '-all'])
+      EOSsubDIR=EOS_DIR+'/'+'EDER-TRANN'
+      EOSsubModelDIR=EOSsubDIR+'/'+'Models'
+      folder =  EOSsubModelDIR
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print e
 
-
+      folder =  AFS_DIR+'/HTCondor/SH'
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print e
+      folder =  AFS_DIR+'/HTCondor/SUB'
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print e
+    else:
+      EOSsubDIR=EOS_DIR+'/'+'EDER-TRANN'
+      EOSsubModelDIR=EOSsubDIR+'/'+'Models'
+      folder =  EOSsubModelDIR
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path) and file_path.contains('error'):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print e
 
 
 
