@@ -130,7 +130,7 @@ if mode=='R':
  CU.LogOperations(EOSsubEvoDIR+'/Population.csv','StartLog',Population)
  CU.SubmitEvoJobsCondor(AFS_DIR,EOS_DIR,Population,1,TrSamples, 1, ValSamples)
  print CU.TimeStamp(), bcolors.OKGREEN+"All jobs for generation 0 have been submitted"+bcolors.ENDC
- print bcolors.OKBOLD+"Please check them in few hours"+bcolors.ENDC
+ print bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC
 if mode=='C':
    Generation=0
    print CU.TimeStamp(),'Continuing the evolution that has been started before'
@@ -170,7 +170,7 @@ if mode=='C':
         CU.LogOperations(EOSsubEvoDIR+'/Population.csv','StartLog',PreviousPopulation)
         CU.SubmitEvoJobsCondor(AFS_DIR,EOS_DIR,RemainingJobs,1,TrSamples, 1, ValSamples)
         print CU.TimeStamp(), bcolors.OKGREEN+"All jobs for generation ",Generation,"have been resubmitted"+bcolors.ENDC
-        print bcolors.OKBOLD+"Please check them in few hours"+bcolors.ENDC
+        print bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC
         exit()
 
    if len(RemainingJobs)==0 or UserAnswer=='C':
