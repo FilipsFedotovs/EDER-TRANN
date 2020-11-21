@@ -21,7 +21,7 @@ def CleanUp():
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
       folder =  '/afs/cern.ch/user/f/ffedship/private/CHARM/MSG'
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
@@ -29,7 +29,7 @@ def CleanUp():
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
       folder =  '/afs/cern.ch/user/f/ffedship/private/CHARM/SH'
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
@@ -37,7 +37,7 @@ def CleanUp():
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
       folder =  '/afs/cern.ch/user/f/ffedship/private/CHARM/SUB'
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
@@ -45,7 +45,7 @@ def CleanUp():
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
 
 def LogOperations(flocation,mode, message):
     if mode=='CreateMasterError':
@@ -139,7 +139,7 @@ def EvolutionCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
 
        folder =  EOSsubEvoModelDIR
        for the_file in os.listdir(folder):
@@ -148,7 +148,7 @@ def EvolutionCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
 
       folder =  AFS_DIR+'/HTCondor/MSG'
       for the_file in os.listdir(folder):
@@ -157,7 +157,7 @@ def EvolutionCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
       folder =  AFS_DIR+'/HTCondor/SH'
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
@@ -165,7 +165,7 @@ def EvolutionCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
       folder =  AFS_DIR+'/HTCondor/SUB'
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
@@ -173,7 +173,7 @@ def EvolutionCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
 def SubmitEvoJobsCondor(AFS_DIR,EOS_DIR,population,tr_start,tr_end, val_start, val_end):
     for p in population:
             SHName=AFS_DIR+'/HTCondor/SH/SH_'+str(p)+'.sh'
@@ -216,7 +216,7 @@ def SubmitEvoJobsCondor(AFS_DIR,EOS_DIR,population,tr_start,tr_end, val_start, v
             f.write("\n")
             f.close()
             subprocess.call(['condor_submit',SUBName])
-            print TotalLine," has been successfully submitted"
+            print(TotalLine," has been successfully submitted")
 def SubmitTrainJobsCondor(AFS_DIR,EOS_DIR,job_list,mode):
     for job in job_list:
             SHName=AFS_DIR+'/HTCondor/SH/SH_'+str(job[0])+'_'+str(job[6])+'.sh'
@@ -263,7 +263,7 @@ def SubmitTrainJobsCondor(AFS_DIR,EOS_DIR,job_list,mode):
             f.write("\n")
             f.close()
             subprocess.call(['condor_submit',SUBName])
-            print TotalLine," has been successfully submitted"
+            print(TotalLine," has been successfully submitted")
 def TrainCleanUp(AFS_DIR, EOS_DIR,mode):
     if mode=='Full':
       subprocess.call(['condor_rm', '-all'])
@@ -276,7 +276,7 @@ def TrainCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
 
       folder =  AFS_DIR+'/HTCondor/SH'
       for the_file in os.listdir(folder):
@@ -285,7 +285,7 @@ def TrainCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
       folder =  AFS_DIR+'/HTCondor/SUB'
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
@@ -293,7 +293,15 @@ def TrainCleanUp(AFS_DIR, EOS_DIR,mode):
                     if os.path.isfile(file_path):
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
+                    print(e)
+      folder =  AFS_DIR+'/HTCondor/MSG'
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(e)
     else:
       EOSsubDIR=EOS_DIR+'/'+'EDER-TRANN'
       EOSsubModelDIR=EOSsubDIR+'/'+'Models'
@@ -301,10 +309,32 @@ def TrainCleanUp(AFS_DIR, EOS_DIR,mode):
       for the_file in os.listdir(folder):
                 file_path=os.path.join(folder, the_file)
                 try:
-                    if os.path.isfile(file_path) and file_path.contains('error'):
+                    if os.path.isfile(file_path) and 'error' in file_path:
                         os.unlink(file_path)
                 except Exception as e:
-                    print e
-
-
+                    print(e)
+      folder =  AFS_DIR+'/HTCondor/SH'
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(e)
+      folder =  AFS_DIR+'/HTCondor/SUB'
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(e)
+      folder =  AFS_DIR+'/HTCondor/MSG'
+      for the_file in os.listdir(folder):
+                file_path=os.path.join(folder, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(e)
 

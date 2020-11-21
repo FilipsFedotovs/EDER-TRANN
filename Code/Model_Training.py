@@ -217,15 +217,17 @@ if mode=='C':
                  PreviousJobs[record][4]=int(PreviousJobs[record][3])+TrSamples
                  PreviousJobs[record][7]=0
                  NextJobs.append(PreviousJobs[record])
-      CU.LogOperations(EOSsubModelDIR+'/TrainLog.csv','UpdateLog',NextJobs)
+
       CU.TrainCleanUp(AFS_DIR,EOS_DIR,'Partial')
       print bcolors.BOLD+'Batch',Batch,' is completed'+bcolors.ENDC
       print bcolors.BOLD+'Would you like to continue training?'+bcolors.ENDC
       UserAnswer=raw_input(bcolors.BOLD+"Please, enter Y/N\n"+bcolors.ENDC)
       if UserAnswer=='Y':
+          CU.LogOperations(EOSsubModelDIR+'/TrainLog.csv','UpdateLog',NextJobs)
           CU.SubmitTrainJobsCondor(AFS_DIR,EOS_DIR,NextJobs,'Train')
           print CU.TimeStamp(),bcolors.OKGREEN+'The next batch',Batch+1,'has been submitted to HTCondor'+bcolors.ENDC
           print bcolors.BOLD,'Please run the script in few hours with --MODE C setting'+bcolors.ENDC
+
       if UserAnswer=='N':
           print CU.TimeStamp(),bcolors.OKGREEN+'Training is finished then, thank you and good bye'+bcolors.ENDC
 exit()
