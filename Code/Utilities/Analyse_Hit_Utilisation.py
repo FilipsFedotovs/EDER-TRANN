@@ -7,7 +7,6 @@ import math
 import ast
 import csv
 import copy
-import statistics
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -41,7 +40,7 @@ EOSsubEvoDIR=EOSsubDIR+'/'+'Evolution'
 EOSsubEvoModelDIR=EOSsubEvoDIR+'/'+'Models'
 csv_reader=open(EOSsubDataDIR+'/data_config',"r")
 data_config = list(csv.reader(csv_reader))
-print(bcolors.OKGREEN+'Config and Data config files have loaded succesfully...'+bcolors.ENDC)
+print bcolors.OKGREEN+'Config and Data config files have loaded succesfully...'+bcolors.ENDC
 ################################################################################################
 import sys
 sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
@@ -56,66 +55,17 @@ args = parser.parse_args()
 input_file_location=args.f
 if input_file_location=='':
     input_file_location=EOSsubDataDIR+'/TEST_SET/RNN_TEST_SET_REC.csv'
-################################################################################################
-#Some help utility functions
-def CheckForData(String):
-    if String[:4]!='TEST' and String[:2]!='ID':
-        return True
-    return False
-def RecordExistCheck(Record, Data):
-    for d in Data:
-        if Record==d:
-            return True
-    return False
-def TransformVar(var, mode, shift):
-    if mode == 'to':
-        return (2 * (var - shift + 2000) / 4000) - 1
-    if mode == 'back':
-        return (((var + 1) * 4000 / 2) - 2000) + shift
-def DecorateTrack(Track,data_pos,original_data_length):
-    ShiftX=float(Track[original_data_length-2])
-    ShiftY=float(Track[original_data_length-1])
-    for nd in range(0,len(data_pos)):
-       if nd==0:  #This is the custom bit that depends on the particular data structure
-           Track.append(TransformVar((float(Track[data_pos[nd]])), 'to', ShiftX))
-       if nd==1:  #This is the custom bit that depends on the particular data structure
-           Track.append(TransformVar((float(Track[data_pos[nd]])), 'to', ShiftY))
-       if nd==2:
-           Track.append(float(Track[data_pos[nd]]))
-       if nd==3:
-           Track.append(float(Track[data_pos[nd]]))
-    return Track
-def CreateGhostTrack(Track,data_pos,original_data_length):
-    Track[layer_id_pos]=int(Track[layer_id_pos])-1
-    NewX= float(Track[data_pos[0]]) + (dZ * float(Track[data_pos[2]]))
-    NewY= float(Track[data_pos[1]]) + (dZ * float(Track[data_pos[3]]))
-    Track[data_pos[0]]=NewX
-    Track[data_pos[1]]=NewY
-    Track[layer_id_hit]='Fake'
-    return Track
-def PrepareOracleInput(Track):
-    Output=[]
-    for tr in Track:
-        single_track=[]
-        for st in range(len(tr)-4,len(tr)):
-          single_track.append(tr[st])
-        Output.append(single_track)
-    return Output
-def StripTrack(Track,TrackLength):
-    StrippedTracks=[]
-    for Hits in range(0,len(Track)):
-       if Track[Hits][layer_id_hit]!='Fake':
-         StrippedTracks.append(Track[Hits][:TrackLength])
-    return StrippedTracks
+metric=args.metric
+
 ################################################################################################
 # Loading and understanding actual data
-print(CU.TimeStamp(),'Loading and understanding',input_file_location,'data....')
+print CU.TimeStamp(),'Loading and understanding',input_file_location,'data....'
 csv_reader=open(input_file_location,"r")
 data=list(csv.reader(csv_reader))
-print(CU.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded...'+bcolors.ENDC)
+print CU.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded...'+bcolors.ENDC
 
 required_metric='TEST_'+metric+'_TRACK'
-
+print CU.TimeStamp(),'Analysing Monte-Carlo track information...'
 for position in range(0,len(data[0])):
     if data[0][position]=='TEST_MC_TRACK':
         track_mc_pos=position;
@@ -124,12 +74,53 @@ for position in range(0,len(data[0])):
 mc_tracks=[]
 for d in data:
     if d[track_mc_pos]!='TEST_MC_TRACK':
-         if d[track_mc_pos] in mc_tracks==False:
-             mc_tracks.append(d[track_mc_pos])
-print mc_tracks
-exit()
-print(CU.TimeStamp(),bcolors.OKGREEN+'The data column structure is adequate...'+bcolors.ENDC)
-print(CU.TimeStamp(),'Testing whether we have adequate number of models to reconstruct all data sequence lengths....')
+        mc_track=[]
+        mc_track.append(d[track_mc_pos])
+        if (mc_track in mc_tracks)==False:
+             mc_tracks.append(mc_track)
 
-###################################################################################################
-print(CU.TimeStamp(),bcolors.OKGREEN+'The reconstruction has completed',TRANN_TRACK_ID+1,'tracks have been recognised'+bcolors.ENDC)
+print CU.TimeStamp(),bcolors.OKGREEN+str(len(mc_tracks)),' Monte-Carlo tracks have been identified'+bcolors.ENDC
+for mt in mc_tracks:
+    mc_track_no=0
+    for d in data:
+        if d[track_mc_pos]==mt[0]:
+            mc_track_no+=1
+    mt.append(mc_track_no)
+
+refined_mc_tracks=[]
+for mt in mc_tracks:
+    if mt[1]>1:
+      refined_mc_tracks.append(mt)
+print CU.TimeStamp(),bcolors.OKGREEN+str(len(refined_mc_tracks)),' Monte-Carlo tracks have been identified with lengths>1 hit in the sequence'+bcolors.ENDC
+
+for mt in refined_mc_tracks:
+    required_tracks=[]
+    required_track=[]
+    for d in data:
+        if d[track_mc_pos]==mt[0]:
+            required_track=[(d[track_required_pos])]
+            required_track.append(0)
+            if (required_track in required_tracks)==False:
+                  required_tracks.append(required_track)
+    mt.append(required_tracks)
+for mt in refined_mc_tracks:
+    required_tracks=[]
+    required_track=[]
+    for d in data:
+        if d[track_mc_pos]==mt[0]:
+           for rt in mt[2]:
+               req_track_no=0
+               if rt[0]==d[track_required_pos]:
+                   rt[1]+=1
+
+for mt in refined_mc_tracks:
+    mt[2]=sorted(mt[2],key=lambda x: float(x[1]),reverse=True)[:1]
+mc_hits=0
+req_hits=0
+for mt in refined_mc_tracks:
+    mc_hits+=mt[1]
+    req_hits+=mt[2][0][1]
+utilisation=round((float(req_hits)/float(mc_hits)),1)*100
+
+print CU.TimeStamp(),bcolors.OKGREEN+'The hit utilisation for',required_metric,'tracks is',bcolors.BOLD+str(utilisation),' %'+bcolors.ENDC
+
