@@ -59,8 +59,8 @@ print(CU.TimeStamp(),bcolors.OKGREEN+'Keras warning messages have been silenced.
 ################################################################################################
 # Setting parsing argument -
 parser = argparse.ArgumentParser(description='Running mode')
-parser.add_argument('--SIGMA', help="Please enter number of sigmas", default='5')
-parser.add_argument('--GAP', help="Please enter maximum number of allowed gaps", default='1')
+parser.add_argument('--SIGMA', help="Please enter a number of sigmas", default='5')
+parser.add_argument('--GAP', help="Please enter a maximum number of allowed gaps", default='2')
 parser.add_argument('--f', help="Please enter the location of the initial data file", default='')
 parser.add_argument('--o', help="Please enter the location of the output data file", default='')
 args = parser.parse_args()
@@ -351,3 +351,4 @@ for Layer in range(min(seq_list), max(seq_list)+1):
     csv_writer_out.close()
     print(CU.TimeStamp(),'Track Reconstruction progress:', int(round((float(Hit_Counter)/float(len(data)-1)*100),1)),'%')
 print(CU.TimeStamp(),bcolors.OKGREEN+'The reconstruction has completed',TRANN_TRACK_ID+1,'tracks have been recognised'+bcolors.ENDC)
+print(CU.TimeStamp(),bcolors.OKGREEN+'The reconstructed file is saved as'+bcolors.ENDC,bcolors.OKBLUE+output_file_location+bcolors.ENDC)

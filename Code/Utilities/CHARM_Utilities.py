@@ -9,107 +9,7 @@ import time as t
 import datetime
 _=0
 ########################################     Main body functions    #########################################
-
-
-
-def CleanUp():
-      subprocess.call(['condor_rm', '-all'])
-      folder =  '/eos/experiment/ship/user/ffedship/CHARM/error'
-      for the_file in os.listdir(folder):
-                file_path=os.path.join(folder, the_file)
-                try:
-                    if os.path.isfile(file_path):
-                        os.unlink(file_path)
-                except Exception as e:
-                    print(e)
-      folder =  '/afs/cern.ch/user/f/ffedship/private/CHARM/MSG'
-      for the_file in os.listdir(folder):
-                file_path=os.path.join(folder, the_file)
-                try:
-                    if os.path.isfile(file_path):
-                        os.unlink(file_path)
-                except Exception as e:
-                    print(e)
-      folder =  '/afs/cern.ch/user/f/ffedship/private/CHARM/SH'
-      for the_file in os.listdir(folder):
-                file_path=os.path.join(folder, the_file)
-                try:
-                    if os.path.isfile(file_path):
-                        os.unlink(file_path)
-                except Exception as e:
-                    print(e)
-      folder =  '/afs/cern.ch/user/f/ffedship/private/CHARM/SUB'
-      for the_file in os.listdir(folder):
-                file_path=os.path.join(folder, the_file)
-                try:
-                    if os.path.isfile(file_path):
-                        os.unlink(file_path)
-                except Exception as e:
-                    print(e)
-
 def LogOperations(flocation,mode, message):
-    if mode=='CreateMasterError':
-       csv_writer_master=open(flocation,"w")
-       master_writer = csv.writer(csv_writer_master)
-       for i in range(3,31):
-         FileName='/eos/experiment/ship/user/ffedship/CHARM/error/ERROR_CHART_'+str(i)+'.csv'
-         with open(FileName) as csv_cache_file:
-              csv_reader_cache = csv.reader(csv_cache_file, delimiter=',')
-              csv_writer_master=open(flocation,"a")
-              master_writer = csv.writer(csv_writer_master)
-              for row in csv_reader_cache:
-                 master_writer.writerow(row)
-              csv_cache_file.close()
-              csv_writer_master.close()
-       return message
-    if mode=='UpdateMasterError':
-       for i in range(3,31):
-         FileName='/eos/experiment/ship/user/ffedship/CHARM/error/ERROR_CHART_'+str(i)+'.csv'
-         with open(FileName) as csv_cache_file:
-              csv_reader_cache = csv.reader(csv_cache_file, delimiter=',')
-              csv_writer_master=open(flocation,"a")
-              master_writer = csv.writer(csv_writer_master)
-              for row in csv_reader_cache:
-                 master_writer.writerow(row)
-              csv_cache_file.close()
-              csv_writer_master.close()
-       return message
-    if mode=='CheckJobs':
-       for i in range(3,31):
-         FileName='/eos/experiment/ship/user/ffedship/CHARM/error/ERROR_CHART_'+str(i)+'.csv'
-         try:
-           with open(FileName) as csv_cache_file:
-              csv_reader_cache = csv.reader(csv_cache_file, delimiter=',')
-              for e in message:
-                  if e[1]==i:
-                      delete_element=e
-              message.remove(delete_element)
-              csv_cache_file.close()
-         except:
-             continue
-
-       return message
-    if mode=='GetBatch':
-         with open(flocation) as csv_log_file:
-          csv_reader_log = csv.reader(csv_log_file, delimiter=',')
-          Batch=0
-          for row in csv_reader_log:
-           if Batch<int(row[0]):
-            Batch=int(row[0])
-         csv_log_file.close()
-         return Batch
-    if mode=='GetJobList':
-         with open(flocation) as csv_log_file:
-          csv_reader_log = csv.reader(csv_log_file, delimiter=',')
-          job_list=[]
-          for row in csv_reader_log:
-           job_sublist=[]
-           if int(row[0])==message:
-            for i in range(0,5):
-             job_sublist.append(int(row[i]))
-            job_list.append(job_sublist)
-         csv_log_file.close()
-         return job_list
     if mode=='UpdateLog':
         csv_writer_log=open(flocation,"a")
         log_writer = csv.writer(csv_writer_log)
@@ -122,8 +22,6 @@ def LogOperations(flocation,mode, message):
         for m in message:
          log_writer.writerow(m)
         csv_writer_log.close()
-
-#### Kosher stuff ######
 def TimeStamp():
  return "["+datetime.datetime.now().strftime("%D")+' '+datetime.datetime.now().strftime("%H:%M:%S")+"]"
 def EvolutionCleanUp(AFS_DIR, EOS_DIR,mode):
