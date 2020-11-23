@@ -15,7 +15,7 @@ This README just serves as a very short user guide, the documentation will be wr
 8) if the message 'EDER-TRANN setup is successfully completed' is displayed, it means that the package is ready for work
 
 -------- Model creation and training -------
-1) Go to EDER_TRAN directory on AFS
+1) Go to EDER_TRANN directory on AFS
 2) cd Code
 3) python Model_Training.py --MODE R
 4) The script will ask which samples to use. Please type D and press ENTER.The script will send HTCondor jobs and exit.
