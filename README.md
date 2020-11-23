@@ -3,7 +3,7 @@ Emulsion Data Event Reconstruction - Tracking using Reccurent Artificial Neural 
 
 This README just serves as a very short user guide, the documentation will be written much later
 
-------------------------------------------------------------------  Installation steps --------------------------------------------------------------------
+------- Installation steps --------
 
 1) pip3 install tensorflow --user
 2) go to your home directory in afs where you would like to install the package
@@ -14,7 +14,7 @@ This README just serves as a very short user guide, the documentation will be wr
 7) The installation will ask whether you want to copy default training and validation files (that were prepared earlier). Unless you have your own, please enter Y.     The installer will copy and analyse existing data, it might take 5-10 minutes
 8) if the message 'EDER-TRANN setup is successfully completed' is displayed, it means that the package is ready for work
 
------------------------------------------------------------------- Model creation and training ------------------------------------------------------------
+-------- Model creation and training -------
 1) Go to EDER_TRAN directory on AFS
 2) cd Code
 3) python Model_Training.py --MODE R
@@ -22,7 +22,7 @@ This README just serves as a very short user guide, the documentation will be wr
 5) After a day or so please run: python Model_Training.py --MODE C
 6) This process is repeated multiple times until the model is sufficinetly trained
 
-------------------------------------------------------------------- Track reconstruction ------------------------------------------------------------------
+------- Track reconstruction --------
 1) Go to EDER_TRAN directory on AFS
 2) cd Code 
 3) tmux (please note the number of lxplus machine at which tmux session is logged in)
@@ -30,7 +30,7 @@ This README just serves as a very short user guide, the documentation will be wr
 5) python3 Track_Reconstructor.py 
    The process can take many hours, log out of tmux by using ctrl+b
 
-------------------------------------------------------------------- Hit utilisation Analysis ---------------------------------------------------------------
+------ Hit utilisation Analysis -------
 6) Relogin to the same machine by using ssh -XY username@lxplus#.cern.ch where # is the recorded number.
 7) tmux a -t 0
 8) if the green message "The reconstruction has completed # tracks have been recognised' is displayed, it means that the reconstruction is finished.
