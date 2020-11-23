@@ -40,6 +40,7 @@ data_config = list(csv.reader(csv_reader))
 for dc in data_config:
     if dc[0]=='FEATURES':
         features=ast.literal_eval(dc[1])
+csv_reader.close()
 
 no_features=len(features)  #How many variables will we use for the RNN model?
 start_val_seq=int(args.ValSeqStart) #Parsing inputs
@@ -144,6 +145,7 @@ def GiveData(StSample, FinSample, TrackLength, Variable,file):
       x.append(seq_x)
       xO.append(seq_x0)
       SEQ+=1
+  csv_train_file.close()
   return array(x), array(xO)
 
 act_fun_list=['linear','exponential','elu','relu', 'selu','sigmoid','softmax','softplus','softsign','tanh']

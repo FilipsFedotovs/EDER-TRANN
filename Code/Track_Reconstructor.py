@@ -33,6 +33,7 @@ for c in config:
         AFS_DIR=c[1]
     if c[0]=='EOS_DIR':
         EOS_DIR=c[1]
+csv_reader.close()
 
 #Loading Data configurations
 EOSsubDIR=EOS_DIR+'/'+'EDER-TRANN'
@@ -42,6 +43,7 @@ EOSsubEvoDIR=EOSsubDIR+'/'+'Evolution'
 EOSsubEvoModelDIR=EOSsubEvoDIR+'/'+'Models'
 csv_reader=open(EOSsubDataDIR+'/data_config',"r")
 data_config = list(csv.reader(csv_reader))
+csv_reader.close()
 print(bcolors.OKGREEN+'Config and Data config files have loaded succesfully...'+bcolors.ENDC)
 ################################################################################################
 import sys
@@ -128,6 +130,7 @@ def StripTrack(Track,TrackLength):
 print(CU.TimeStamp(),'Loading and understanding',input_file_location,'data....')
 csv_reader=open(input_file_location,"r")
 data=list(csv.reader(csv_reader))
+csv_reader.close()
 print(CU.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded...'+bcolors.ENDC)
 features=ast.literal_eval(data_config[0][1])
 feature_no=len(features)
@@ -305,7 +308,7 @@ for Layer in range(min(seq_list), max(seq_list)+1):
        csv_writer_out = open(output_file_location, "w")
        out_writer = csv.writer(csv_writer_out)
        header_to_write=data[0]
-       header_to_write.append('TRANN_TRACK')
+       header_to_write.append('TEST_TRANN_TRACK')
        out_writer.writerow(header_to_write)
        csv_writer_out.close()
     if Layer == max(seq_list):

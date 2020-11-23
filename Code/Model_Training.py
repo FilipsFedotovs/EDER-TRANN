@@ -38,6 +38,7 @@ for c in config:
         AFS_DIR=c[1]
     if c[0]=='EOS_DIR':
         EOS_DIR=c[1]
+csv_reader.close()
 
 #Loading Data configurations
 EOSsubDIR=EOS_DIR+'/'+'EDER-TRANN'
@@ -47,7 +48,7 @@ EOSsubEvoDIR=EOSsubDIR+'/'+'Evolution'
 EOSsubEvoModelDIR=EOSsubEvoDIR+'/'+'Models'
 csv_reader=open(EOSsubDataDIR+'/data_config',"r")
 data_config = list(csv.reader(csv_reader))
-
+csv_reader.close()
 #Working out which sequences are we training
 SeqList=[]
 for dc in data_config:
@@ -69,6 +70,7 @@ print CU.TimeStamp(),'Checking whether we have available DNA codes derived from 
 try:
   csv_reader=open(EOSsubEvoDIR+'/Population.csv',"r")
   evolution_models=list(csv_reader)
+  csv_reader.close()
 except:
   print CU.TimeStamp(),bcolors.WARNING+'No evolution models have been found '+bcolors.ENDC
 
@@ -169,6 +171,7 @@ if mode=='C':
    print CU.TimeStamp(),'Continuing the training that has been started before'
    csv_reader=open(EOSsubModelDIR+'/TrainLog.csv',"r")
    PreviousJobs = list(csv.reader(csv_reader))
+   csv_reader.close()
    ###Working out the latest batch
    for j in PreviousJobs:
        if int(j[6])>Batch:
