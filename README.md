@@ -31,12 +31,12 @@ This README just serves as a very short user guide, the documentation will be wr
    The process can take many hours, log out of tmux by using ctrl+b
 
 ------ Hit utilisation Analysis -------
-6) Relogin to the same machine by using ssh -XY username@lxplus#.cern.ch where # is the recorded number.
-7) tmux a -t 0
-8) if the green message "The reconstruction has completed # tracks have been recognised' is displayed, it means that the reconstruction is finished.
-1) kinit username@CERN.CH
-10) cd Utilisation
-11) python Analyse_Hit_Utilisation.py --metric TRANN
+1) Relogin to the same machine by using ssh -XY username@lxplus#.cern.ch where # is the recorded number.
+2) tmux a -t 0
+3) if the green message "The reconstruction has completed # tracks have been recognised' is displayed, it means that the reconstruction is finished.
+4) kinit username@CERN.CH
+5) cd Utilisation
+6) python Analyse_Hit_Utilisation.py --metric TRANN
 
 
 
