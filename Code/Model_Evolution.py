@@ -93,7 +93,7 @@ def RawDNAInit():
     #Training epoc size
     for i in range(0,NumberOfLayers):
     #Number of nodes
-     gene[i].append(randint(200+1))
+     gene[i].append(randint(11))
     #Activation function
      gene[i].append(randint(10))
     #Reccurent Activation
