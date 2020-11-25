@@ -42,7 +42,7 @@ SeqList=ast.literal_eval(args.SeqRanges)
 CXPB=float(args.CXPB)
 MUTPB=float(args.MUTPB)
 SIGMA=float(args.SIGMA)
-dna_bound=[[10,9,9,1,10],[10,9,9,1,10],[10,9,9,1,10],[10,9,9,1,10],[10,9,9,1,10],[9],[10]] #Sets the maximium bound for the model dna code
+dna_bound=[[10,10,10,2,10],[10,10,10,2,10],[10,10,10,2,10],[10,10,10,2,10],[10,10,10,2,10],[10],[10]] #Sets the maximium bound for the model dna code
 #in case if mutation violates it
 _=0
 
@@ -87,21 +87,21 @@ def RawDNAInit():
     gene=[]
     for i in range(0,5):
         gene.append([])
-    gene.append([randint(10)])
+    gene.append([randint(10)+1])
     #LSTM output activation function
-    gene.append([randint(11)])
+    gene.append([randint(10)+1])
     #Training epoc size
     for i in range(0,NumberOfLayers):
     #Number of nodes
-     gene[i].append(randint(11))
+     gene[i].append(randint(10)+1)
     #Activation function
-     gene[i].append(randint(10))
+     gene[i].append(randint(10)+1)
     #Reccurent Activation
-     gene[i].append(randint(10))
+     gene[i].append(randint(10)+1)
     #Use Bias
-     gene[i].append(randint(2))
+     gene[i].append(randint(2)+1)
     #Dropout
-     gene[i].append(randint(11))
+     gene[i].append(randint(10)+1)
     return gene
 def InitialisePopulation(Size):
   InitialPopulation=[]
@@ -176,11 +176,13 @@ if mode=='C':
 
    if len(RemainingJobs)==0 or UserAnswer=='C':
       CU.LogOperations(EOSsubEvoDIR+'/Population.csv','StartLog',PreviousPopulation)
-      print bcolors.BOLD+'Batch',Batch,' is completed'+bcolors.ENDC
+      CU.EvolutionCleanUp(AFS_DIR, EOS_DIR,'_')
+      print bcolors.BOLD+'Batch',Generation,' is completed'+bcolors.ENDC
       print bcolors.BOLD+'Would you like to continue training?'+bcolors.ENDC
       UserAnswer=raw_input(bcolors.BOLD+"Please, enter Y/N\n"+bcolors.ENDC)
       if UserAnswer=='N':
           print CU.TimeStamp(),bcolors.OKGREEN+'Evolution is finished then, thank you and good bye'+bcolors.ENDC
+
           exit()
       print CU.TimeStamp(),'Creating next generaion',Generation+1
       for seq in SeqList:
@@ -242,20 +244,21 @@ if mode=='C':
        print CU.TimeStamp(),bcolors.OKGREEN+'Population crossing for data with sequence',seq,'is completed...'+bcolors.ENDC
        for c in range(0,len(selected_children)):
            for codon in range(0,len(selected_children[c][4])):
-              if len(selected_children[c][4][codon])==1:
-                 if rnd.random() <= MUTPB:
+              if len(selected_children[c][4][codon])>=1:
+                for base in range(0,len(selected_children[c][4][codon])):
+                  if rnd.random() <= MUTPB:
                     sign=rnd.choice((-1,1))
                     mutation_step=int(sign*(round((rnd.gauss(0, SIGMA)),0)))
-                    selected_children[c][4][codon][0]+=mutation_step
-                    if selected_children[c][4][codon][0]>dna_bound[codon][0]:
-                       selected_children[c][4][codon][0]=dna_bound[codon][0]
-                    if selected_children[c][4][codon][0]<0:
-                       selected_children[c][4][codon][0]=0
+                    selected_children[c][4][codon][base]+=mutation_step
+                    if selected_children[c][4][codon][base]>dna_bound[codon][base]:
+                       selected_children[c][4][codon][base]=dna_bound[codon][base]
+                    if selected_children[c][4][codon][base]<1:
+                       selected_children[c][4][codon][base]=1
        print CU.TimeStamp(),bcolors.OKGREEN+'Mutation operation for data with sequence',seq,'is completed...'+bcolors.ENDC
        print CU.TimeStamp(),'The next generation of data with sequence',seq,' will consist of ',len(selected_children), 'individuals'
        Population=PreviousPopulation+selected_children
        CU.LogOperations(EOSsubEvoDIR+'/Population.csv','UpdateLog',selected_children)
-       CU.EvolutionCleanUp(AFS_DIR, EOS_DIR,'_')
+
        CU.SubmitEvoJobsCondor(AFS_DIR,EOS_DIR,selected_children,1,TrSamples, 1, ValSamples)
        print CU.TimeStamp(),bcolors.OKGREEN+'The next generation',Generation+1,'of data with sequence',seq,' consisting of ',len(selected_children), 'individuals has been submitted for evaluation'+bcolors.ENDC
       print CU.TimeStamp(),bcolors.OKGREEN+'All jobs have been submitted'+bcolors.ENDC

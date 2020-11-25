@@ -43,6 +43,7 @@ for dc in data_config:
 csv_reader.close()
 
 no_features=len(features)  #How many variables will we use for the RNN model?
+print(no_features)
 start_val_seq=int(args.ValSeqStart) #Parsing inputs
 end_val_seq=int(args.ValSeqEnd)
 start_train_seq=int(args.TrainSeqStart)
@@ -148,11 +149,11 @@ def GiveData(StSample, FinSample, TrackLength, Variable,file):
   csv_train_file.close()
   return array(x), array(xO)
 
-act_fun_list=['linear','exponential','elu','relu', 'selu','sigmoid','softmax','softplus','softsign','tanh']
+act_fun_list=['N/A','linear','exponential','elu','relu', 'selu','sigmoid','softmax','softplus','softsign','tanh']
 def GiveBias(Code):
-    if Code==0:
-        return 'False'
     if Code==1:
+        return 'False'
+    if Code==2:
         return 'True'
 
 TrSamples=(end_train_seq-start_train_seq)+1
