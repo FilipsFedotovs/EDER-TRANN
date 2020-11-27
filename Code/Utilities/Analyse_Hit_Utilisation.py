@@ -103,6 +103,8 @@ for mt in refined_mc_tracks:
             if (required_track in required_tracks)==False:
                   required_tracks.append(required_track)
     mt.append(required_tracks)
+
+
 for mt in refined_mc_tracks:
     required_tracks=[]
     required_track=[]
@@ -110,8 +112,9 @@ for mt in refined_mc_tracks:
         if d[track_mc_pos]==mt[0]:
            for rt in mt[2]:
                req_track_no=0
-               if rt[0]==d[track_required_pos]:
+               if rt[0]==d[track_required_pos] and d[track_required_pos]!='':
                    rt[1]+=1
+
 
 for mt in refined_mc_tracks:
     mt[2]=sorted(mt[2],key=lambda x: float(x[1]),reverse=True)[:1]
