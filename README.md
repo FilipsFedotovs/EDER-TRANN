@@ -6,6 +6,7 @@ This README just serves as a very short user guide, the documentation will be wr
 ------- Installation steps --------
 
 1) pip3 install tensorflow --user
+2) pip3 install keras --user
 2) go to your home directory in afs where you would like to install the package
 3) git clone https://github.com/FilipsFedotovs/EDER-TRANN/
 4) cd EDER-TRANN/
