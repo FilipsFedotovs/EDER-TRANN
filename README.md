@@ -6,14 +6,14 @@ This README just serves as a very short user guide, the documentation will be wr
 ------- Installation steps --------
 
 1) pip3 install tensorflow --user
-2) pip3 install keras --user
-2) go to your home directory in afs where you would like to install the package
-3) git clone https://github.com/FilipsFedotovs/EDER-TRANN/
-4) cd EDER-TRANN/
-5) python setup.py
-6) The installation will require an EOS directory, please enter the location on EOS where you would like to keep data and the models. An example of the input is /eos/experiment/ship/user/username
-7) The installation will ask whether you want to copy default training and validation files (that were prepared earlier). Unless you have your own, please enter Y.     The installer will copy and analyse existing data, it might take 5-10 minutes
-8) if the message 'EDER-TRANN setup is successfully completed' is displayed, it means that the package is ready for work
+2) pip3 install keras==2.3.1 --user
+3) go to your home directory in afs where you would like to install the package
+4) git clone https://github.com/FilipsFedotovs/EDER-TRANN/
+5) cd EDER-TRANN/
+6) python setup.py
+7) The installation will require an EOS directory, please enter the location on EOS where you would like to keep data and the models. An example of the input is /eos/experiment/ship/user/username (but create the directory there first).
+8) The installation will ask whether you want to copy default training and validation files (that were prepared earlier). Unless you have your own, please enter Y.     The installer will copy and analyse existing data, it might take 5-10 minutes
+9) if the message 'EDER-TRANN setup is successfully completed' is displayed, it means that the package is ready for work
 
 -------- Model creation and training -------
 1) Go to EDER_TRANN directory on AFS
