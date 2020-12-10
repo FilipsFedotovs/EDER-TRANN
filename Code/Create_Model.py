@@ -18,7 +18,7 @@ import statistics
 #This is done via
 ############################# Configure par
 parser = argparse.ArgumentParser(description='Model creation parameters')
-parser.add_argument('--DNA',help="Please enter the model dna", default='[[1, 9, 9, 0, 2], [], [], [], [], [0],[1]]')
+parser.add_argument('--DNA',help="Please enter the model dna", default='[[1, 9, 9, 1, 2], [], [], [], [], [1],[1]]')
 parser.add_argument('--ValSeqStart',help="Please enter the start sequence id of the validation samples", default='1')
 parser.add_argument('--ValSeqEnd',help="Please enter the final sequence id of the validation samples", default='20')
 parser.add_argument('--TrainSeqStart',help="Please enter the start sequence id of the train samples", default='1')
