@@ -108,11 +108,12 @@ if mode=='R':
           refined_evolution_model.append(TrSamples)
           refined_evolution_model.append(0)
           refined_evolution_model.append(ValSamples)
-          refined_evolution_model.append(ast.literal_eval(ast.literal_eval(em)[4]))
+          refined_evolution_model.append(ast.literal_eval(em)[4])
           refined_evolution_model.append(ast.literal_eval(em)[5])
           refined_evolution_models[seq].append(refined_evolution_model)
       except:
        print bcolors.FAIL+'Error reading one of the records'+bcolors.ENDC
+
     for em in range(0,len(refined_evolution_models)):
         if len(refined_evolution_models[em])>0:
             refined_evolution_models[em]= (sorted(refined_evolution_models[em],key=lambda x: float(x[6]),reverse=False)[:1])
@@ -158,6 +159,11 @@ if mode=='R':
          print CU.TimeStamp(),bcolors.OKGREEN+'Job list has been created'+bcolors.ENDC
 
          exit()
+ new_job_list=[]
+ for job in job_list:
+    if len(job)!=0:
+        new_job_list.append(job)
+ job_list=new_job_list
  for job in range(0,len(job_list)):
     job_list[job].append(0)
     job_list[job].append(0)
@@ -216,8 +222,8 @@ if mode=='C':
                  PreviousJobs[record][6]=int(PreviousJobs[record][6])+1
                  PreviousJobs[record][1]=int(PreviousJobs[record][2])+1
                  PreviousJobs[record][2]=int(PreviousJobs[record][1])+TrSamples
-                 PreviousJobs[record][3]=int(PreviousJobs[record][4])+1
-                 PreviousJobs[record][4]=int(PreviousJobs[record][3])+TrSamples
+                 PreviousJobs[record][3]=int(PreviousJobs[record][3])
+                 PreviousJobs[record][4]=int(PreviousJobs[record][4])
                  PreviousJobs[record][7]=0
                  NextJobs.append(PreviousJobs[record])
 
