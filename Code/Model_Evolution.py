@@ -42,7 +42,7 @@ SeqList=ast.literal_eval(args.SeqRanges)
 CXPB=float(args.CXPB)
 MUTPB=float(args.MUTPB)
 SIGMA=float(args.SIGMA)
-dna_bound=[[10,10,10,2,10],[10,10,10,2,10],[10,10,10,2,10],[10,10,10,2,10],[10,10,10,2,10],[10],[10]] #Sets the maximium bound for the model dna code
+dna_bound=[[10,10,10,2,9],[10,10,10,2,9],[10,10,10,2,9],[10,10,10,2,9],[10,10,10,2,9],[10],[10]] #Sets the maximium bound for the model dna code
 #in case if mutation violates it
 _=0
 
@@ -101,7 +101,7 @@ def RawDNAInit():
     #Use Bias
      gene[i].append(randint(2)+1)
     #Dropout
-     gene[i].append(randint(10)+1)
+     gene[i].append(randint(10))
     return gene
 def InitialisePopulation(Size):
   InitialPopulation=[]
